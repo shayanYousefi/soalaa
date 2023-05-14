@@ -33,14 +33,7 @@ RUN yarn build:ssr
 
 
 FROM node:16.16.0-alpine
-FROM node:16.16.0-alpine
 
-
-COPY --from=prebuild /var/www/app/dist/ssr /var/www/app/dist/ssr
-
-WORKDIR /var/www/app/dist/ssr
-
-RUN yarn install
 COPY --from=prebuild /var/www/app/dist/ssr /var/www/app/dist/ssr
 
 WORKDIR /var/www/app/dist/ssr
@@ -52,11 +45,6 @@ EXPOSE 13100
 
 # Run container as non-root (unprivileged) user
 # The "node" user is provided in the Node.js Alpine base image
-# Run container as non-root (unprivileged) user
-# The "node" user is provided in the Node.js Alpine base image
-
-USER node
 USER node
 
-CMD ["node", "/var/www/app/dist/ssr/index.js"]
 CMD ["node", "/var/www/app/dist/ssr/index.js"]
