@@ -4,10 +4,8 @@
          :hidden="$q.screen.lt.md">اطلاعات کاربری</div>
     <div v-if="$q.screen.lt.md"
          class="flex justify-start profile-btn">
-      <q-btn
-        color="dark"
-        flat
-      >
+      <q-btn color="dark"
+             flat>
         <svg width="22"
              height="22"
              viewBox="0 0 22 22"
@@ -33,46 +31,42 @@
     </div>
 
     <div class="profile-card relative-position">
-      <entity-crud-form-builder
-        ref="EntityCrudFormBuilder"
-        v-model:value="inputs"
-      />
+      <entity-crud-form-builder ref="EntityCrudFormBuilder"
+                                v-model:value="inputs" />
 
       <div class="card-actions">
         <div class="card-actions-button dont-save-button"
-             @click="goToDashboard()"
-        >
+             @click="goToDashboard()">
           انصراف
         </div>
 
         <div class="card-actions-button save-button"
-             @click="edit"
-        >
+             @click="edit">
           ذخیره
         </div>
       </div>
 
       <q-inner-loading :showing="loading"
-                       label="کمی صبر کنید..."
-      />
+                       label="کمی صبر کنید..." />
 
     </div>
   </div>
 </template>
 
 <script>
+import API_ADDRESS from 'src/api/Addresses.js'
 import { EntityCrudFormBuilder } from 'quasar-crud'
-import API_ADDRESS from 'src/api/Addresses'
+import { User } from 'src/models/User'
 
 export default {
   name: 'Profile',
   components: {
     EntityCrudFormBuilder
   },
-
   data () {
     return {
       loading: false,
+      user: new User(),
       inputs: [
         { type: 'input', name: 'first_name', responseKey: 'first_name', label: 'نام', col: 'col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4', placeholder: ' ' },
         { type: 'input', name: 'last_name', responseKey: 'last_name', label: 'نام خانوادگی', col: 'col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4', placeholder: ' ' },
@@ -96,21 +90,11 @@ export default {
       isCityLocked: false
     }
   },
-
-  mounted() {
-    this.onLoadPage()
-  },
-
   computed: {
-    user () {
-      return this.$store.getters['Auth/user']
-    },
-
     provinceInputValue () {
       return this.findInput(this.inputs, 'province').value
     }
   },
-
   watch: {
     provinceInputValue (newValue) {
       if (!newValue) {
@@ -119,8 +103,14 @@ export default {
       this.setCityInputOptions(this.getCitiesOfProvince(typeof this.provinceInputValue === 'object' ? this.provinceInputValue.value : this.provinceInputValue))
     }
   },
-
+  mounted() {
+    this.loadAuthData()
+    this.onLoadPage()
+  },
   methods: {
+    loadAuthData () { // prevent Hydration node mismatch
+      this.user = this.$store.getters['Auth/user']
+    },
     onLoadPage () {
       this.loading = true
       this.getFormData()
@@ -226,7 +216,7 @@ export default {
       const formData = this.$refs.EntityCrudFormBuilder.getFormData()
 
       // console.log('formData', formData)
-      this.$axios.put(API_ADDRESS.user.edit(this.user.id), formData)
+      this.$alaaApiInstance.put(API_ADDRESS.user.edit(this.user.id), formData)
         .then(() => {
           this.loading = false
         })

@@ -1,19 +1,17 @@
 <template>
-  <entity-create
-    v-model:value="inputs"
-    title="لیست دروس"
-    :api="api"
-    :entity-id-key-in-response="entityIdKeyInResponse"
-    :show-route-param-key="showRouteParamKey"
-    :index-route-name="indexRouteName"
-    :show-route-name="showRouteName"
-  />
+  <entity-create v-model:value="inputs"
+                 title="لیست دروس"
+                 :api="api"
+                 :entity-id-key-in-response="entityIdKeyInResponse"
+                 :show-route-param-key="showRouteParamKey"
+                 :index-route-name="indexRouteName"
+                 :show-route-name="showRouteName" />
 </template>
 
 <script>
 import { EntityCreate } from 'quasar-crud'
-// import EntityCreate from 'components/Entity/Create/EntityCreate'
-import API_ADDRESS from 'src/api/Addresses'
+// import EntityCreate from 'src/components/Entity/Create/EntityCreate'
+import API_ADDRESS from 'src/api/Addresses.js'
 
 export default {
   name: 'Create',

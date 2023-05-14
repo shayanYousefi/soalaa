@@ -32,17 +32,14 @@
       </div>
     </template>
     <template #content>
-      <q-linear-progress
-        v-if="linearLoading"
-        color="primary"
-        reverse
-        class="q-mt-sm"
-        indeterminate
-      />
+      <q-linear-progress v-if="linearLoading"
+                         color="primary"
+                         reverse
+                         class="q-mt-sm"
+                         indeterminate />
       <div ref="contentInside"
            class="content-inside"
-           :class="{ 'user-panel' : getTemplateLeftSideBarType === 'default' }"
-      >
+           :class="{ 'user-panel' : getTemplateLeftSideBarType === 'default' }">
         <q-dialog v-model="confirmDialogData.show"
                   persistent>
           <q-card class="q-pa-md q-pb-none">
@@ -69,7 +66,7 @@
         <q-dialog v-model="loginDialog">
           <auth />
         </q-dialog>
-        <Router :include="keepAliveComponents" />
+        <router :include="keepAliveComponents" />
         <floating-action-button v-if="user.hasPermission('examStore') && ($route.name === 'HomePage' || $route.name === 'Landing.3aComprehensiveExams' || $route.name === 'Public.Product.Show')" />
       </div>
     </template>
@@ -80,13 +77,12 @@
 </template>
 
 <script>
-
+import { User } from 'src/models/User.js'
 import { defineAsyncComponent } from 'vue'
-import MainFooter from 'components/Layout/Footer/main'
-import KeepAliveComponents from 'assets/js/KeepAliveComponents'
+import MainFooter from 'components/Layout/Footer/main.vue'
+import KeepAliveComponents from 'assets/js/KeepAliveComponents.js'
 import QuasarTemplateBuilder from 'quasar-template-builder/src/quasar-template-builder.vue'
 import FloatingActionButton from 'components/Template/FloatingActionButton/FloatingActionButton.vue'
-import { User } from 'src/models/User'
 
 // import templateHeader from 'components/Headers/templateHeader'
 // import onlineQuizTemplateHeader from 'components/Headers/onlineQuizTemplateHeader'
@@ -102,36 +98,24 @@ export default {
     MainFooter,
     FloatingActionButton,
     QuasarTemplateBuilder,
-    UserSideBar: defineAsyncComponent(() => import('layouts/UserPanelLayouts/UserSideBar')),
-    sideMenuMapOfQuestions: defineAsyncComponent(() => import('components/Menu/SideMenu/SideMenu_MapOfQuestions')),
-    SideMenuDashboard: defineAsyncComponent(() => import('components/Menu/SideMenu/SideMenu-dashboard')),
-    Router: defineAsyncComponent(() => import('src/router/Router')),
-    templateHeader: defineAsyncComponent(() => import('components/Headers/templateHeader')),
-    onlineQuizTemplateHeader: defineAsyncComponent(() => import('components/Headers/onlineQuizTemplateHeader')),
-    UserTemplateHeader: defineAsyncComponent(() => import('components/Headers/userTemplateHeader')),
-    Auth: defineAsyncComponent(() => import('components/Auth'))
-
-    // UserSideBar,
-    // Router,
-    // SideMenuDashboard,
-    // sideMenuMapOfQuestions,
-    // templateHeader,
-    // onlineQuizTemplateHeader,
-    // UserTemplateHeader,
-    // Auth
+    Auth: defineAsyncComponent(() => import('components/Auth.vue')),
+    Router: defineAsyncComponent(() => import('src/router/Router.vue')),
+    UserSideBar: defineAsyncComponent(() => import('layouts/UserPanelLayouts/UserSideBar.vue')),
+    templateHeader: defineAsyncComponent(() => import('components/Headers/templateHeader.vue')),
+    UserTemplateHeader: defineAsyncComponent(() => import('components/Headers/userTemplateHeader.vue')),
+    SideMenuDashboard: defineAsyncComponent(() => import('components/Menu/SideMenu/SideMenu-dashboard.vue')),
+    onlineQuizTemplateHeader: defineAsyncComponent(() => import('components/Headers/onlineQuizTemplateHeader.vue')),
+    sideMenuMapOfQuestions: defineAsyncComponent(() => import('components/Menu/SideMenu/SideMenu_MapOfQuestions.vue'))
   },
   data () {
     return {
+      user: new User(),
+      isAdmin: true,
+      isUserLogin: false,
       keepAliveComponents: KeepAliveComponents
     }
   },
   computed: {
-    user () {
-      if (this.$store.getters['Auth/user']) {
-        return this.$store.getters['Auth/user']
-      }
-      return new User()
-    },
     loginDialog: {
       get () {
         return this.$store.getters['AppLayout/loginDialog']
@@ -157,13 +141,15 @@ export default {
       return this.$store.getters['AppLayout/layoutLeftSideBarType']
     }
   },
-  watch: {
-  },
   mounted () {
-  },
-  created () {
+    this.loadAuthData()
   },
   methods: {
+    loadAuthData () { // prevent Hydration node mismatch
+      this.user = this.$store.getters['Auth/user']
+      this.isAdmin = this.$store.getters['Auth/isAdmin']
+      this.isUserLogin = this.$store.getters['Auth/isUserLogin']
+    },
     confirmDialogAction (data) {
       if (this.confirmDialogData) this.confirmDialogData.callback(data)
       else {

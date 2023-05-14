@@ -9,8 +9,7 @@
               <div v-for="(layer, index) in layersList"
                    :key="index"
                    class="detail-box"
-                   :class="getDefaultLayerClassName(layer)"
-              >
+                   :class="getDefaultLayerClassName(layer)">
                 <div class="detail-box-title">{{layer.label}}</div>
                 <q-select v-model="layer.selectedValue"
                           filled
@@ -76,11 +75,10 @@
   </q-dialog>
 </template>
 <script>
-
-import Tree from 'components/Tree/Tree.vue'
 import mixinTree from 'src/mixin/Tree.js'
+import API_ADDRESS from 'src/api/Addresses.js'
+import Tree from 'src/components/Tree/Tree.vue'
 import { TreeNode, TreeNodeList } from 'src/models/TreeNode.js'
-import API_ADDRESS from 'src/api/Addresses'
 
 export default {
   name: 'TreeModal',
@@ -231,9 +229,6 @@ export default {
   updated () {},
   methods: {
     async setupInitialNode() {
-      if (!this.initialNode?.id) {
-        return
-      }
       const typeOfNode = typeof this.initialNode
       let node = this.initialNode
       if (typeOfNode === 'string') {
@@ -247,12 +242,6 @@ export default {
       }
       const response = await this.getTreeNode(node.id)
       this.localInitialNode = response.data.data
-    },
-    async initTreeByType () {
-      if (!this.treeType) {
-        return
-      }
-      await this.showTreeModalNode(this.treeType, false, true)
     },
     async initTreeEssentials () {
       await this.initLayers()
@@ -273,12 +262,8 @@ export default {
         isInCurrentTree
       })
     },
-    async initTree() {
+    initTree() {
       if (this.modalHasLayer()) {
-        return
-      }
-      await this.initTreeByType()
-      if (!this.localInitialNode?.id) {
         return
       }
       this.showTreeModalNode(this.localInitialNode.id)
@@ -337,18 +322,15 @@ export default {
       const treeNode = await this.loadLayerList(layerRoute)
       this.layersList[layerIndex].nodeList = treeNode.children
     },
-    getRouteForNode (value, isValueNode, hasTreeType) {
-      if (hasTreeType) {
-        return API_ADDRESS.tree.getNodeByType(value)
-      }
+    getRouteForNode (value, isValueNode) {
       if (isValueNode && typeof value) {
         const nodeId = typeof value === 'string' ? value : value.id
         return API_ADDRESS.tree.getNodeById(nodeId)
       }
       return value
     },
-    getTreeNode(value, isValueNode = true, hasTreeType) {
-      const route = this.getRouteForNode(value, isValueNode, hasTreeType)
+    getTreeNode(value, isValueNode = true) {
+      const route = this.getRouteForNode(value, isValueNode)
       return new Promise((resolve, reject) => {
         this.dialogLoading = true
         this.$axios.get(route)
@@ -425,10 +407,10 @@ export default {
     getLayerRoute(layerId) {
       return this.routeNameToGetNode(layerId)
     },
-    showTreeModalNode (id, isValueNode = true, hasTreeType = false) {
+    showTreeModalNode (id) {
       this.dialogLoading = true
       this.treeKey += 1
-      this.showTree('tree', this.getTreeNode(id, isValueNode, hasTreeType))
+      this.showTree('tree', this.getTreeNode(id))
         .then((response) => {
           const allNodes = response.data.data.children
           allNodes.push(new TreeNode({

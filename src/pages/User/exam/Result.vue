@@ -8,58 +8,44 @@
     </div>
     <div class="row wrap justify-center">
       <div class="col default-col-padding">
-        <q-card
-          flat
-          class="infoCard content-center"
-        >
-          <div
-            class="row main-tabs"
-          >
-            <div
-              class="col col-12 col-xl-3 col-sm-6 exam-title default-result-padding"
-            >
+        <q-card flat
+                class="infoCard content-center">
+          <div class="row main-tabs">
+            <div class="col col-12 col-xl-3 col-sm-6 exam-title default-result-padding">
               نتیجه
               {{ quiz.title }}
               سه آ
             </div>
-            <div
-              v-if="report"
-              class="col col-6 col-xl-1 col-sm-3 default-result-padding"
-            >
+            <div v-if="report"
+                 class="col col-6 col-xl-1 col-sm-3 default-result-padding">
               شهر:
               {{ report.location.city }}
             </div>
-            <div
-              v-if="report"
-              class="col col-6 col-xl-1 col-sm-3 default-result-padding"
-            >
+            <div v-if="report"
+                 class="col col-6 col-xl-1 col-sm-3 default-result-padding">
               استان:
               {{ report.location.province }}
             </div>
-            <div
-              class="col col-12 col-xl-7 default-result-tabs-title"
-              :style="{ padding: '0 12px' }"
-            >
-              <q-tabs
-                v-model="tab"
-                dense
-                active-color="primary"
-                indicator-color="primary"
-                align="justify"
-                class="result-tabs"
-              >
+            <div class="col col-12 col-xl-7 default-result-tabs-title"
+                 :style="{ padding: '0 12px' }">
+              <q-tabs v-model="tab"
+                      dense
+                      active-color="primary"
+                      indicator-color="primary"
+                      align="justify"
+                      class="result-tabs">
                 <q-tab name="result"
-                       label="کارنامه"></q-tab>
+                       label="کارنامه" />
                 <q-tab name="rank"
-                       label="تخمین رتبه"></q-tab>
+                       label="تخمین رتبه" />
                 <q-tab name="lessons"
-                       label="ریزدرس ها"></q-tab>
+                       label="ریزدرس ها" />
                 <q-tab name="KeyAnswers"
-                       label="پاسخبرگ کلیدی"></q-tab>
+                       label="پاسخبرگ کلیدی" />
                 <q-tab name="descriptiveAnswers"
-                       label="پاسخ نامه تشریحی"></q-tab>
+                       label="پاسخ نامه تشریحی" />
                 <q-tab name="videos"
-                       label="تحلیل ویدیویی"></q-tab>
+                       label="تحلیل ویدیویی" />
               </q-tabs>
             </div>
           </div>
@@ -72,19 +58,17 @@
                       animated
                       swipeable>
           <q-tab-panel name="result">
-            <PersonalResult :report="report" />
+            <personal-result :report="report" />
           </q-tab-panel>
           <q-tab-panel name="rank">
             <takhmin-rotbe :report="report" />
           </q-tab-panel>
           <q-tab-panel name="lessons">
-            <StatisticResult :report="report" />
+            <statistic-result :report="report" />
           </q-tab-panel>
           <q-tab-panel name="KeyAnswers">
-            <BubbleSheet
-              :info="{ type: 'pasokh-nameh' }"
-              delay-time="0"
-            />
+            <bubble-sheet :info="{ type: 'pasokh-nameh' }"
+                          delay-time="0" />
           </q-tab-panel>
           <q-tab-panel name="descriptiveAnswers">
             <q-card flat>
@@ -92,48 +76,34 @@
                 دانلود پاسخنامه تشریحی
               </p>
               <div v-if="report">
-                <div
-                  v-for="(item, index) in report.exams_booklet"
-                  :key="index"
-                  class="row download-row"
-                >
-                  <div
-                    class="col col-12 col-sm-6"
-                  >
-                    <div
-                      v-if="item.descriptive_answers_url"
-                      class="download-box"
-                    >
+                <div v-for="(item, index) in report.exams_booklet"
+                     :key="index"
+                     class="row download-row">
+                  <div class="col col-12 col-sm-6">
+                    <div v-if="item.descriptive_answers_url"
+                         class="download-box">
                       <p class="download-title">
                         دانلود پاسخنامه تشریحی {{
                           item.title
                         }}
                       </p>
-                      <q-btn
-                        outline
-                        :href="item.descriptive_answers_url"
-                        target="_blank"
-                      >
+                      <q-btn outline
+                             :href="item.descriptive_answers_url"
+                             target="_blank">
                         دانلود فایل PDF
                         <q-icon name="mdi-download" />
                       </q-btn>
                     </div>
                   </div>
-                  <div
-                    class="col col-12 col-sm-6"
-                  >
-                    <div
-                      v-if="item.questions_url"
-                      class="download-box"
-                    >
+                  <div class="col col-12 col-sm-6">
+                    <div v-if="item.questions_url"
+                         class="download-box">
                       <p class="download-title">
                         دانلود سوالات {{ item.title }}
                       </p>
-                      <q-btn
-                        outline
-                        :href="item.questions_url"
-                        target="_blank"
-                      >
+                      <q-btn outline
+                             :href="item.questions_url"
+                             target="_blank">
                         دانلود فایل PDF
                         <q-icon name="mdi-download" />
                       </q-btn>
@@ -143,25 +113,19 @@
               </div>
             </q-card>
             <div class="questionsList">
-              <q-virtual-scroll
-                ref="scroller"
-                class="konkoor-view-scroll"
-                :items="questions"
-                :virtual-scroll-item-size="450"
-                :virtual-scroll-slice-size="5"
-              >
+              <q-virtual-scroll ref="scroller"
+                                class="konkoor-view-scroll"
+                                :items="questions"
+                                :virtual-scroll-item-size="450"
+                                :virtual-scroll-slice-size="5">
                 <template v-slot="{ item, index }">
-                  <q-item
-                    :key="index"
-                    class="question-field"
-                    dense
-                  >
+                  <q-item :key="index"
+                          class="question-field"
+                          dense>
                     <q-item-section>
-                      <question-item
-                        :source="item"
-                        :questions-column="$refs.questionsColumn"
-                        :show-with-answer="true"
-                      />
+                      <question-item :source="item"
+                                     :questions-column="$refs.questionsColumn"
+                                     :show-with-answer="true" />
                     </q-item-section>
                   </q-item>
                 </template>
@@ -179,19 +143,19 @@
 </template>
 
 <script>
-import QuestionItem from 'src/components/OnlineQuiz/Quiz/question/questionField'
-import Info from 'src/components/OnlineQuiz/Quiz/resultTables/info'
-import PersonalResult from 'src/components/OnlineQuiz/Quiz/resultTables/personalResult'
-import BubbleSheet from 'src/components/OnlineQuiz/Quiz/bubbleSheet/bubbleSheet'
-import Assistant from 'src/plugins/assistant'
-import { AlaaSet } from 'src/models/AlaaSet'
-import { mixinAuth, mixinQuiz } from 'src/mixin/Mixins'
-import { AlaaContent } from 'src/models/AlaaContent'
-import StatisticResult from 'src/components/OnlineQuiz/Quiz/resultTables/statisticResult'
-import TakhminRotbe from 'src/components/OnlineQuiz/Quiz/TakhminRotbe'
-import ExamData from 'src/assets/js/ExamData'
-import TabsOfLessons from 'components/OnlineQuiz/Quiz/videoPlayerSection/tabsOfLessons'
-import API_ADDRESS from 'src/api/Addresses'
+import API_ADDRESS from 'src/api/Addresses.js'
+import { AlaaSet } from 'src/models/AlaaSet.js'
+import Assistant from 'src/plugins/assistant.js'
+import ExamData from 'src/assets/js/ExamData.js'
+import { AlaaContent } from 'src/models/AlaaContent.js'
+import { mixinAuth, mixinQuiz } from 'src/mixin/Mixins.js'
+import Info from 'src/components/OnlineQuiz/Quiz/resultTables/info.vue'
+import TakhminRotbe from 'src/components/OnlineQuiz/Quiz/TakhminRotbe.vue'
+import QuestionItem from 'src/components/OnlineQuiz/Quiz/question/questionField.vue'
+import BubbleSheet from 'src/components/OnlineQuiz/Quiz/bubbleSheet/bubbleSheet.vue'
+import PersonalResult from 'src/components/OnlineQuiz/Quiz/resultTables/personalResult.vue'
+import StatisticResult from 'src/components/OnlineQuiz/Quiz/resultTables/statisticResult.vue'
+import TabsOfLessons from 'src/components/OnlineQuiz/Quiz/videoPlayerSection/tabsOfLessons.vue'
 
 export default {
   name: 'Result',
@@ -308,7 +272,7 @@ export default {
     },
     getContent (contentId, subCategoryIndex) {
       const that = this
-      this.$axios.get(API_ADDRESS.content.base + '/' + contentId)
+      this.$alaaApiInstance.get(API_ADDRESS.content.base + '/' + contentId)
         .then((response) => {
           that.currentVideo = response.data.data
           that.initVideoJs(that.currentVideo.file.video, subCategoryIndex)

@@ -80,12 +80,12 @@
 
 <script>
 import { Block } from 'src/models/Block.js'
+import API_ADDRESS from 'src/api/Addresses.js'
 import { mixinWidget } from 'src/mixin/Mixins.js'
 import Slider from 'components/Widgets/Slider/Slider.vue'
 import SetItem from 'components/Widgets/SetItem/SetItem.vue'
 import ContentItem from 'components/Widgets/ContentItem/ContentItem.vue'
 import ProductItem from 'src/components/Widgets/Product/ProductItem/ProductItem.vue'
-import API_ADDRESS from 'src/api/Addresses'
 
 export default {
   name: 'Block',
@@ -167,15 +167,15 @@ export default {
     },
     getApiRequest() {
       if (this.localOptions.apiName === 'home') {
-        return this.$axios.get(API_ADDRESS.block.home)
+        return this.$alaaApiInstance.get(API_ADDRESS.block.home)
         // return this.$apiGateway.pages.home()
       }
       if (this.localOptions.apiName === 'shop') {
-        return this.$axios.get(API_ADDRESS.block.shop)
+        return this.$alaaApiInstance.get(API_ADDRESS.block.shop)
         // return this.$apiGateway.pages.shop()
       }
       if (this.localOptions.apiName === 'content') {
-        return this.$axios.get(API_ADDRESS.content.relatedProducts(this.$route.params.id))
+        return this.$alaaApiInstance.get(API_ADDRESS.content.relatedProducts(this.$route.params.id))
         // return this.$apiGateway.content.relatedProducts(this.$route.params.id)
       }
       return Promise.reject('wrong api name')

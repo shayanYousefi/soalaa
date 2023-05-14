@@ -25,7 +25,7 @@
 
 <script>
 import moment from 'moment-jalaali'
-import API_ADDRESS from 'src/api/Addresses'
+import API_ADDRESS from 'src/api/Addresses.js'
 
 export default {
   name: 'NextExam',
@@ -40,6 +40,10 @@ export default {
       lastExam: null,
       countDown: 0
     }
+  },
+  created() {
+    this.getExams()
+    this.countDownTimer()
   },
   methods: {
     getExams() {
@@ -72,10 +76,6 @@ export default {
         }, 1000)
       }
     }
-  },
-  created() {
-    this.getExams()
-    this.countDownTimer()
   }
 }
 </script>

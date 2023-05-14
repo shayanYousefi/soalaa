@@ -18,9 +18,10 @@
                          icon="close"
                          class="q-mr-sm"
                          @click="removeTabPanel(index)" />
-                  <div class="expansion-label q-mt-sm full-width">
-                    {{item.type}}
-                  </div>
+                  <q-input v-model="item.type"
+                           autogrow
+                           class="full-width"
+                           label="label" />
                 </template>
                 <recursive-component :options="item" />
               </q-expansion-item>
@@ -39,35 +40,17 @@
 </template>
 <script>
 import { defineComponent } from 'vue'
-import { PageBuilderOptionPanel } from 'src/mixin/Mixins'
+import { mixinOptionPanel } from 'quasar-ui-q-page-builder'
 import OptionPanelTabs from 'quasar-ui-q-page-builder/src/components/OptionPanelComponents/OptionPanelTabs.vue'
 import recursiveComponent from './recursiveComponent.vue'
 
 export default defineComponent({
   name: 'OptionPanel',
   components: { OptionPanelTabs, recursiveComponent },
-  mixins: [PageBuilderOptionPanel],
-  data() {
-    return {
-      defaultOptions: {
-        data: [],
-        style: {}
-      }
-    }
-  },
-  mounted() {
-    // console.log(this.localOptions)
-  },
+  mixins: [mixinOptionPanel],
   methods: {
-    removeTabPanel(index) {
-      this.localOptions.data.splice(index, 1)
-    },
     addTabPanel() {
-      this.localOptions.data.push({
-        options: { layout: 'ProductTab' },
-        type: 'GroupList',
-        data: []
-      })
+
     }
   }
 })

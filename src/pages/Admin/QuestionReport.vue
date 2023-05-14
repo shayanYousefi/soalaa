@@ -1,11 +1,9 @@
 <template>
   <!--  v-model:index-inputs="indexInputs"-->
-  <entity-crud
-    v-model:default-inputs="defaultInputs"
-    v-model:index-inputs="indexInputs"
-    v-model:create-inputs="createInputs"
-    v-bind="allProps"
-  >
+  <entity-crud v-model:default-inputs="defaultInputs"
+               v-model:index-inputs="indexInputs"
+               v-model:create-inputs="createInputs"
+               v-bind="allProps">
     <!--    {inputData, showConfirmRemoveDialog}-->
     <template v-slot:entity-crud-table-cell="{inputData}">
       <template v-if="inputData.col.name === 'actions'">
@@ -39,7 +37,7 @@
 
 <script>
 import { EntityCrud } from 'quasar-crud'
-import API_ADDRESS from 'src/api/Addresses'
+import API_ADDRESS from 'src/api/Addresses.js'
 
 export default {
   name: 'QuestionReport',

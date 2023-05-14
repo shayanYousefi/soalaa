@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import API_ADDRESS from 'src/api/Addresses'
+import API_ADDRESS from 'src/api/Addresses.js'
 
 export default {
   name: 'TicketRate',
@@ -40,6 +40,27 @@ export default {
       selectedId: 0,
       imgData: []
     }
+  },
+  computed: {
+    getImg () {
+      return (id, mode) => {
+        return 'https://nodes.alaatv.com/upload/ticket-rate-' + id + '-' + mode + '.png'
+      }
+    }
+  },
+  watch: {
+    rate (newVal, oldVal) {
+      setTimeout(() => {
+        this.imgData.forEach(item => {
+          if (this.rate === item.id) {
+            item.url = this.getImg(item.id, 'on')
+          }
+        })
+      }, 50)
+    }
+  },
+  created() {
+    this.initImgData()
   },
   methods: {
     isImgActive(url, id) {
@@ -64,7 +85,7 @@ export default {
       if (!this.isSelected(this.selectedId, rateId)) {
         return false
       }
-      this.$axios.post(API_ADDRESS.ticket.ticketRate(this.ticketId), {
+      this.$alaaApiInstance.post(API_ADDRESS.ticket.ticketRate(this.ticketId), {
         rate: rateId
       })
         .then((res) => {
@@ -98,27 +119,6 @@ export default {
         }
       ]
     }
-  },
-  computed: {
-    getImg () {
-      return (id, mode) => {
-        return 'https://nodes.alaatv.com/upload/ticket-rate-' + id + '-' + mode + '.png'
-      }
-    }
-  },
-  watch: {
-    rate (newVal, oldVal) {
-      setTimeout(() => {
-        this.imgData.forEach(item => {
-          if (this.rate === item.id) {
-            item.url = this.getImg(item.id, 'on')
-          }
-        })
-      }, 50)
-    }
-  },
-  created() {
-    this.initImgData()
   }
 }
 </script>

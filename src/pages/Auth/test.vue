@@ -3,18 +3,20 @@
 </template>
 
 <script>
-
-import API_ADDRESS from 'src/api/Addresses'
+import API_ADDRESS from 'src/api/Addresses.js'
 
 export default {
   name: 'Test',
-  mixins: [],
   components: { },
-  data () {
-    return {
-      testValue: '',
-      testValue1: ''
-    }
+  mixins: [],
+  beforeRouteEnter () {
+    // console.log('debug beforeRouteEnter')
+  },
+  beforeRouteLeave () {
+    // console.log('debug beforeRouteLeave')
+  },
+  beforeRouteUpdate () {
+    // console.log('debug beforeRouteUpdate')
   },
   props: {
     testProp: {
@@ -24,7 +26,12 @@ export default {
       }
     }
   },
-  methods: {},
+  data () {
+    return {
+      testValue: '',
+      testValue1: ''
+    }
+  },
   computed: {
     test1 () {
       return API_ADDRESS.question.uploadImage('dfbdgbdgbgfnhfn')
@@ -33,14 +40,12 @@ export default {
       return 'Bearer ' + this.$store.getters['Auth/accessToken']
     }
   },
-  beforeRouteEnter () {
-    // console.log('debug beforeRouteEnter')
-  },
-  beforeRouteLeave () {
-    // console.log('debug beforeRouteLeave')
-  },
-  beforeRouteUpdate () {
-    // console.log('debug beforeRouteUpdate')
+  watch: {
+    testValue: {
+      handler () {},
+      deep: true
+    },
+    testValue1 (oldVal, newVal) {}
   },
   activated () {
     // console.log('debug activated')
@@ -54,13 +59,7 @@ export default {
   mounted () {
     // console.log('debug mounted')
   },
-  watch: {
-    testValue: {
-      handler () {},
-      deep: true
-    },
-    testValue1 (oldVal, newVal) {}
-  }
+  methods: {}
 }
 </script>
 

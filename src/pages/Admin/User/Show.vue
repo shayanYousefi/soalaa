@@ -1,13 +1,11 @@
 <template>
-  <entity-show
-    v-model:value="inputs"
-    title="اطلاعات کاربر"
-    :api="api"
-    :entity-id-key="entityIdKey"
-    :entity-param-key="entityParamKey"
-    :edit-route-name="editRouteName"
-    :index-route-name="indexRouteName"
-  />
+  <entity-show v-model:value="inputs"
+               title="اطلاعات کاربر"
+               :api="api"
+               :entity-id-key="entityIdKey"
+               :entity-param-key="entityParamKey"
+               :edit-route-name="editRouteName"
+               :index-route-name="indexRouteName" />
   <portlet ref="portlet">
     <template #title>
       روزهای آزاد کاربر
@@ -52,9 +50,9 @@
 </template>
 
 <script>
-import moment from 'moment-jalaali'
-import API_ADDRESS from 'src/api/Addresses'
 import { ref } from 'vue'
+import moment from 'moment-jalaali'
+import API_ADDRESS from 'src/api/Addresses.js'
 import { EntityShow, Portlet } from 'quasar-crud'
 
 export default {

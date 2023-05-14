@@ -1,12 +1,10 @@
 <template>
   <!--  v-model:index-inputs="indexInputs"-->
-  <entity-crud
-    v-model:default-inputs="defaultInputs"
-    v-model:index-inputs="indexInputs"
-    v-model:create-inputs="createInputs"
-    v-model:edit-inputs="editInputs"
-    v-bind="allProps"
-  >
+  <entity-crud v-model:default-inputs="defaultInputs"
+               v-model:index-inputs="indexInputs"
+               v-model:create-inputs="createInputs"
+               v-model:edit-inputs="editInputs"
+               v-bind="allProps">
     <!--    {inputData, showConfirmRemoveDialog}-->
     <template v-slot:entity-crud-table-cell="{inputData, showConfirmRemoveDialog}">
       <template v-if="inputData.col.name === 'actions'">
@@ -45,8 +43,8 @@
 </template>
 
 <script>
-import API_ADDRESS from 'src/api/Addresses'
 import { EntityCrud } from 'quasar-crud'
+import API_ADDRESS from 'src/api/Addresses.js'
 
 export default {
   name: 'QuestionAuthors',
@@ -139,8 +137,6 @@ export default {
       ],
       editInputs: [
         { type: 'input', name: 'value', label: 'عنوان', responseKey: 'data.value', col: 'col-md-3', placeholder: ' ', filled: true },
-        { type: 'input', name: 'order', label: 'ترتیب نمایش', col: 'col-md-2', placeholder: ' ', filled: true },
-        { type: 'select', name: 'sort_by', label: 'نوع نمایش فیلترها', col: 'col-md-2', placeholder: ' ', filled: true, options: ['ASC', 'DESC'] },
         { type: 'file', name: 'image', label: 'تصویر', col: 'col-md-3', placeholder: ' ', filled: true }
       ],
       showInputs: [],
@@ -151,6 +147,15 @@ export default {
       ]
     }
   },
+  watch: {
+    // editInputs: {
+    //   handler (newValue, oldValue) {
+    //     console.log('inputs', newValue)
+    //   },
+    //   deep: true
+    // }
+  },
+  created () {},
   methods: {
     // for index.vue
     getRemoveMessage (row) {
@@ -178,16 +183,7 @@ export default {
         done(val, 'toggle')
       }
     }
-  },
-  watch: {
-    // editInputs: {
-    //   handler (newValue, oldValue) {
-    //     console.log('inputs', newValue)
-    //   },
-    //   deep: true
-    // }
-  },
-  created () {}
+  }
 }
 </script>
 

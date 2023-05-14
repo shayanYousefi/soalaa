@@ -3,18 +3,17 @@
        class="html-katex"
        style="overflow: hidden"
        :dir="!isLtrString ? 'rtl' : 'ltr'"
-       v-html="computedKatex"
-  />
+       v-html="computedKatex" />
 <!--  <canvas v-show="false"-->
 <!--          ref="convertor" />-->
 </template>
 
 <script>
-import mixinConvertToTiptap from 'vue-tiptap-katex-core/mixins/convertToTiptap'
 import katex from 'katex'
 import 'katex/dist/katex.css'
-import addPersianTo from 'src/Utils/katex-persian-renderer/src/index.mjs'
 import 'src/Utils/katex-persian-renderer/katex-persian-fonts/index.css'
+import addPersianTo from 'src/Utils/katex-persian-renderer/src/index.mjs'
+import mixinConvertToTiptap from 'vue-tiptap-katex-core/mixins/convertToTiptap'
 import allMetrics from 'src/Utils/katex-persian-renderer/katex-persian-fonts/YekanBakhFontMetrics.json'
 
 addPersianTo(katex, {
@@ -192,6 +191,7 @@ export default {
 
 <style lang="scss">
 /*rtl:ignore*/
+@import "katex/dist/katex.min.css";
 @import "vue-tiptap-katex-core/css/base";
 @import "src/css/katex-rtl-fix.scss";
 

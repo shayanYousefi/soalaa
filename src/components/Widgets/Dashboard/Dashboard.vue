@@ -36,21 +36,17 @@
     <div v-else
          class="content-wrapper">
       <div v-if="windowSize">
-        <div
-          v-if="windowSize.x < 1024"
-          class="profile-container"
-        >
+        <div v-if="windowSize.x < 1024"
+             class="profile-container">
           <div class="profile-box">
             <div class="profile-detail">
               <div class="profile-photo-box">
                 <div class="profile-photo-img">
-                  <q-img :src="user.photo"></q-img>
+                  <q-img :src="user.photo" />
                 </div>
               </div>
-              <div
-                v-if="isUserLogin"
-                class="profile-detail-info"
-              >
+              <div v-if="isUserLogin"
+                   class="profile-detail-info">
                 <div class="info-name">{{user.full_name}}</div>
                 <div class="info-phoneNumber">{{user.mobile}}</div>
               </div>
@@ -60,119 +56,89 @@
         <dashboard-header />
         <next-exam />
         <div class="board-container row q-col-gutter-lg">
-          <div class="col-12 col-lg-8 calendar-col"
-          >
+          <div class="col-12 col-lg-8 calendar-col">
             <upcoming-exams-calender :calendarTitle="'آزمون های پیش‌رو'"
                                      :calendarIcon="'isax:calendar-1'" />
           </div>
           <div v-if="lastSubscribeDate !== null"
-               class="col-12 col-lg-4 subscription-col"
-          >
+               class="col-12 col-lg-4 subscription-col">
             <subscription-status :subscribe="lastSubscribeDate" />
           </div>
         </div>
         <div v-if="windowSize.x < 1024">
-          <div
-            v-ripple
-            class="relative-position navigation-btn"
-            @click="routeTo('User.Exam.List')"
-          >
+          <div v-ripple
+               class="relative-position navigation-btn"
+               @click="routeTo('User.Exam.List')">
             <div class="title-box">
-              <q-icon
-                name="isax:task-square"
-                color="primary"
-                size="24px"
-                style="padding-left: 16px"
-              />
+              <q-icon name="isax:task-square"
+                      color="primary"
+                      size="24px"
+                      style="padding-left: 16px" />
               <div class="title">
                 آزمون‌ها
               </div>
             </div>
             <div class="arrow-icon">
-              <q-icon
-                name="isax:arrow-left-2"
-                size="24px"
-              />
+              <q-icon name="isax:arrow-left-2"
+                      size="24px" />
             </div>
           </div>
-          <div
-            v-ripple
-            class="relative-position navigation-btn"
-            @click="routeTo('User.MyOrders')"
-          >
+          <div v-ripple
+               class="relative-position navigation-btn"
+               @click="routeTo('User.MyOrders')">
             <div class="title-box">
-              <q-icon
-                name="isax:clipboard-text"
-                color="primary"
-                size="24px"
-                style="padding-left: 16px"
-              />
+              <q-icon name="isax:clipboard-text"
+                      color="primary"
+                      size="24px"
+                      style="padding-left: 16px" />
               <div class="title">
                 سفارش‌های من
               </div>
             </div>
             <div class="arrow-icon">
-              <q-icon
-                name="isax:arrow-left-2"
-                size="24px"
-              />
+              <q-icon name="isax:arrow-left-2"
+                      size="24px" />
             </div>
           </div>
-          <div
-            v-ripple
-            class="relative-position navigation-btn"
-            @click="routeTo('User.Profile')"
-          >
+          <div v-ripple
+               class="relative-position navigation-btn"
+               @click="routeTo('User.Profile')">
             <div class="title-box">
-              <q-icon
-                name="isax:user"
-                color="primary"
-                size="24px"
-                style="padding-left: 16px"
-              />
+              <q-icon name="isax:user"
+                      color="primary"
+                      size="24px"
+                      style="padding-left: 16px" />
               <div class="title">
                 اطلاعات کاربری
               </div>
             </div>
             <div class="arrow-icon">
-              <q-icon
-                name="isax:arrow-left-2"
-                size="24px"
-              />
+              <q-icon name="isax:arrow-left-2"
+                      size="24px" />
             </div>
           </div>
-          <div
-            v-ripple
-            class="relative-position navigation-btn logout"
-            @click="logOut"
-          >
+          <div v-ripple
+               class="relative-position navigation-btn logout"
+               @click="logOut">
             <div class="title-box">
-              <q-icon
-                name="isax:logout"
-                color="primary"
-                size="24px"
-                style="padding-left: 16px"
-              />
+              <q-icon name="isax:logout"
+                      color="primary"
+                      size="24px"
+                      style="padding-left: 16px" />
               <div class="title">
                 خروج
               </div>
             </div>
             <div class="arrow-icon">
-              <q-icon
-                name="isax:arrow-left-2"
-                size="24px"
-              />
+              <q-icon name="isax:arrow-left-2"
+                      size="24px" />
             </div>
           </div>
         </div>
-        <div
-          v-if="windowSize.x < 600"
-          class="bottom-nav"
-        >
-          <q-btn
-            unelevated
-            class="btn-style profile"
-          >
+        <div v-if="windowSize.x < 600"
+             class="bottom-nav">
+          <q-btn unelevated
+                 class="btn-style profile">
             <svg width="24"
                  height="24"
                  viewBox="0 0 24 24"
@@ -184,11 +150,9 @@
                     fill="#9690E4" />
             </svg>
           </q-btn>
-          <q-btn
-            unelevated
-            class="btn-style"
-            :to="{ name: 'cart'}"
-          >
+          <q-btn unelevated
+                 class="btn-style"
+                 :to="{ name: 'cart'}">
             <svg width="24"
                  height="24"
                  viewBox="0 0 24 24"
@@ -202,26 +166,22 @@
                     fill="#8A8CA6" />
             </svg>
           </q-btn>
-          <q-btn
-            unelevated
-            class="btn-style"
-            :to="{ name: 'User.Create.Exam'}"
-          ><svg width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 22.75C6.07 22.75 1.25 17.93 1.25 12C1.25 6.07 6.07 1.25 12 1.25C17.93 1.25 22.75 6.07 22.75 12C22.75 17.93 17.93 22.75 12 22.75ZM12 2.75C6.9 2.75 2.75 6.9 2.75 12C2.75 17.1 6.9 21.25 12 21.25C17.1 21.25 21.25 17.1 21.25 12C21.25 6.9 17.1 2.75 12 2.75Z"
-                  fill="#8A8CA6" />
-            <path d="M10.5 16.75C8.71 16.75 7.25 15.29 7.25 13.5C7.25 10.05 10.05 7.25 13.5 7.25C15.29 7.25 16.75 8.71 16.75 10.5C16.75 13.95 13.95 16.75 10.5 16.75ZM13.5 8.75C10.88 8.75 8.75 10.88 8.75 13.5C8.75 14.46 9.54 15.25 10.5 15.25C13.12 15.25 15.25 13.12 15.25 10.5C15.25 9.54 14.46 8.75 13.5 8.75Z"
-                  fill="#8A8CA6" />
-          </svg>
+          <q-btn unelevated
+                 class="btn-style"
+                 :to="{ name: 'User.Create.Exam'}"><svg width="24"
+                                                        height="24"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                   <path d="M12 22.75C6.07 22.75 1.25 17.93 1.25 12C1.25 6.07 6.07 1.25 12 1.25C17.93 1.25 22.75 6.07 22.75 12C22.75 17.93 17.93 22.75 12 22.75ZM12 2.75C6.9 2.75 2.75 6.9 2.75 12C2.75 17.1 6.9 21.25 12 21.25C17.1 21.25 21.25 17.1 21.25 12C21.25 6.9 17.1 2.75 12 2.75Z"
+                         fill="#8A8CA6" />
+                   <path d="M10.5 16.75C8.71 16.75 7.25 15.29 7.25 13.5C7.25 10.05 10.05 7.25 13.5 7.25C15.29 7.25 16.75 8.71 16.75 10.5C16.75 13.95 13.95 16.75 10.5 16.75ZM13.5 8.75C10.88 8.75 8.75 10.88 8.75 13.5C8.75 14.46 9.54 15.25 10.5 15.25C13.12 15.25 15.25 13.12 15.25 10.5C15.25 9.54 14.46 8.75 13.5 8.75Z"
+                         fill="#8A8CA6" />
+                 </svg>
           </q-btn>
-          <q-btn
-            unelevated
-            class="btn-style"
-            :to="{ name: 'HomePage'}"
-          >
+          <q-btn unelevated
+                 class="btn-style"
+                 :to="{ name: 'HomePage'}">
             <svg width="24"
                  height="24"
                  viewBox="0 0 24 24"
@@ -240,39 +200,40 @@
 </template>
 
 <script>
-import DashboardHeader from 'components/Widgets/Dashboard/SideComponent/DashboardHeader'
-import SubscriptionStatus from 'components/Widgets/Dashboard/SideComponent/SubscriptionStatus'
-import UpcomingExamsCalender from 'components/Widgets/Dashboard/SideComponent/UpcomingExamsCalender'
-import NextExam from 'components/Widgets/Dashboard/SideComponent/NextExam'
-import API_ADDRESS from 'src/api/Addresses'
-import { User } from 'src/models/User'
+import { User } from 'src/models/User.js'
+import API_ADDRESS from 'src/api/Addresses.js'
+import NextExam from 'src/components/Widgets/Dashboard/SideComponent/NextExam.vue'
+import DashboardHeader from 'src/components/Widgets/Dashboard/SideComponent/DashboardHeader.vue'
+import SubscriptionStatus from 'src/components/Widgets/Dashboard/SideComponent/SubscriptionStatus.vue'
+import UpcomingExamsCalender from 'src/components/Widgets/Dashboard/SideComponent/UpcomingExamsCalender.vue'
+
 export default {
   name: 'Dashboard',
   components: { NextExam, UpcomingExamsCalender, SubscriptionStatus, DashboardHeader },
   data () {
     return {
+      user: new User(),
+      isUserLogin: false,
       lastSubscribeLoading: false,
       lastSubscribeDate: null
+    }
+  },
+  computed: {
+    windowSize () {
+      return this.$store.getters['AppLayout/windowSize']
     }
   },
   created() {
     this.getLastSubscribe()
   },
-  computed: {
-    windowSize () {
-      return this.$store.getters['AppLayout/windowSize']
-    },
-    user () {
-      if (this.$store.getters['Auth/user']) {
-        return this.$store.getters['Auth/user']
-      }
-      return new User()
-    },
-    isUserLogin() {
-      return this.$store.getters['Auth/isUserLogin']
-    }
+  mounted () {
+    this.loadAuthData()
   },
   methods: {
+    loadAuthData () { // prevent Hydration node mismatch
+      this.user = this.$store.getters['Auth/user']
+      this.isUserLogin = this.$store.getters['Auth/isUserLogin']
+    },
     getLastSubscribe () {
       this.lastSubscribeLoading = true
       this.$axios.get(API_ADDRESS.subscription.last)

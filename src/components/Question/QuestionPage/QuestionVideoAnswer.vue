@@ -4,14 +4,12 @@
       <div class="content-label">
         پاسخ ویدیویی
       </div>
-      <q-btn
-        label="انتخاب محتوا"
-        color="primary"
-        class="dialog-btn"
-        :loading="loading"
-        unelevated
-        @click="toggleVideoAnswerDialog()"
-      >
+      <q-btn label="انتخاب محتوا"
+             color="primary"
+             class="dialog-btn"
+             :loading="loading"
+             unelevated
+             @click="toggleVideoAnswerDialog()">
         <q-badge v-if="contentId !== null"
                  color="warning"
                  floating
@@ -42,9 +40,10 @@
 </template>
 
 <script>
-import API_ADDRESS from 'src/api/Addresses'
+import API_ADDRESS from 'src/api/Addresses.js'
+import { Content } from 'src/models/Content.js'
 import ContentSelectionDialog from 'components/Question/QuestionPage/ContentSelectionDialog.vue'
-import { Content } from 'src/models/Content'
+
 export default {
   name: 'QuestionVideoAnswer',
   components: { ContentSelectionDialog },
@@ -92,7 +91,7 @@ export default {
     },
     getContent(contentId) {
       this.loading = true
-      this.$axios.get(API_ADDRESS.content.get(contentId))
+      this.$alaaApiInstance.get(API_ADDRESS.content.get(contentId))
         .then(res => {
           this.content = new Content(res.data.data)
           this.timePointOptions = this.content.timepoints.list

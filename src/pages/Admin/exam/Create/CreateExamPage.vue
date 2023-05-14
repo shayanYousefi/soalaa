@@ -1,17 +1,15 @@
 <template>
   <div class="exam-card">
-    <entity-crud-form-builder
-      ref="EntityCrudFormBuilder"
-      v-model:value="inputs"
-    />
+    <entity-crud-form-builder ref="EntityCrudFormBuilder"
+                              v-model:value="inputs" />
   </div>
 </template>
 
 <script>
+import mixinTree from 'src/mixin/Tree.js'
+import { Exam } from 'src/models/Exam.js'
+import API_ADDRESS from 'src/api/Addresses.js'
 import { EntityCrudFormBuilder } from 'quasar-crud'
-import API_ADDRESS from 'src/api/Addresses'
-import { Exam } from 'src/models/Exam'
-import mixinTree from 'src/mixin/Tree'
 
 export default {
   name: 'CreateExamPage',
@@ -19,6 +17,12 @@ export default {
   mixins: [
     mixinTree
   ],
+  inject: {
+    exam: {
+      from: 'providedExam', // this is optional if using the same key for injection
+      default: new Exam()
+    }
+  },
   data () {
     return {
       model: 'one',
@@ -251,10 +255,12 @@ export default {
       category: { title: '', id: '', order: 0, time: 0 }
     }
   },
-  inject: {
-    exam: {
-      from: 'providedExam', // this is optional if using the same key for injection
-      default: new Exam()
+  computed: {
+    examCategoriesIndex () {
+      return this.inputs.findIndex(item => item.name === 'categories')
+    },
+    totalCategory () {
+      return this.inputs[this.examCategoriesIndex].value && this.inputs[this.examCategoriesIndex].value.length >= 2
     }
   },
   created () {
@@ -264,14 +270,6 @@ export default {
     // const element = document.getElementsByClassName('')
     // console.log(element)
     // element.classList.remove('.col')
-  },
-  computed: {
-    examCategoriesIndex () {
-      return this.inputs.findIndex(item => item.name === 'categories')
-    },
-    totalCategory () {
-      return this.inputs[this.examCategoriesIndex].value && this.inputs[this.examCategoriesIndex].value.length >= 2
-    }
   },
   methods: {
     getPageReady () {

@@ -3,84 +3,68 @@
     <div class="row">
       <div ref="header"
            class="col-12 question-bank-header">
-        <QuestionBankHeader />
+        <question-bank-header />
       </div>
       <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 question-bank-filter">
         <sticky-both-sides :max-width="1024"
                            :top-gap="130">
-          <question-filter
-            ref="filter"
-            :loadings="loadings"
-            :filterQuestions="filterQuestions"
-            @onFilter="onFilter"
-            @delete-filter="deleteFilterItem"
-          />
+          <question-filter ref="filter"
+                           :loadings="loadings"
+                           :filterQuestions="filterQuestions"
+                           @onFilter="onFilter"
+                           @delete-filter="deleteFilterItem" />
         </sticky-both-sides>
       </div>
       <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12">
         <div class="question-bank-toolbar">
-          <QuestionToolBar
-            :key="questionListKey"
-            :check-box="checkBox"
-            :selectedQuestions="selectedQuestions"
-            @remove="RemoveChoice"
-            @deleteAllQuestions="deleteAllQuestions"
-            @selectAllQuestions="selectAllQuestions"
-          />
+          <question-tool-bar :key="questionListKey"
+                             :check-box="checkBox"
+                             :selectedQuestions="selectedQuestions"
+                             @remove="RemoveChoice"
+                             @deleteAllQuestions="deleteAllQuestions"
+                             @selectAllQuestions="selectAllQuestions" />
         </div>
         <div class="col-12 filter-card-container">
-          <q-card
-            class="filter-card"
-            flat
-          >
+          <q-card class="filter-card"
+                  flat>
             <q-card-section class="search-section">
-              <q-input
-                v-model="searchInput"
-                filled
-                class="bg-white search-input"
-                placeholder="جستجو در سوالات..."
-              >
+              <q-input v-model="searchInput"
+                       filled
+                       class="bg-white search-input"
+                       placeholder="جستجو در سوالات...">
                 <template v-slot:append>
-                  <q-btn
-                    flat
-                    rounded
-                    icon="isax:search-normal-1"
-                    class="search"
-                    @click="filterByStatement"
-                  />
+                  <q-btn flat
+                         rounded
+                         icon="isax:search-normal-1"
+                         class="search"
+                         @click="filterByStatement" />
                 </template>
               </q-input>
             </q-card-section>
 
             <q-card-section class="filter-section">
-              <q-select
-                v-model="searchSelector"
-                filled
-                dropdown-icon="isax:arrow-down-1"
-                option-value="value"
-                option-label="title"
-                :options="searchInputOptions"
-                class="backGround-gray-input filter-input"
-                @update:model-value="sortByCreatedAt"
-              >
-              </q-select>
+              <q-select v-model="searchSelector"
+                        filled
+                        dropdown-icon="isax:arrow-down-1"
+                        option-value="value"
+                        option-label="title"
+                        :options="searchInputOptions"
+                        class="backGround-gray-input filter-input"
+                        @update:model-value="sortByCreatedAt" />
             </q-card-section>
           </q-card>
         </div>
         <div class="question-bank-content">
           <question-item v-if="questions.loading"
-                         :question="loadingQuestion"
-          />
+                         :question="loadingQuestion" />
           <template v-else>
-            <question-item
-              v-for="question in questions.list"
-              :key="question.id"
-              :question="question"
-              :listOptions="questionsOptions"
-              pageStrategy="question-bank"
-              @deleteFromDb="deleteQuestionFromDataBase"
-              @checkSelect="onClickedCheckQuestionBtn"
-            />
+            <question-item v-for="question in questions.list"
+                           :key="question.id"
+                           :question="question"
+                           :listOptions="questionsOptions"
+                           pageStrategy="question-bank"
+                           @deleteFromDb="deleteQuestionFromDataBase"
+                           @checkSelect="onClickedCheckQuestionBtn" />
           </template>
         </div>
 
@@ -95,16 +79,13 @@
           <template v-slot:action>
             <q-btn flat
                    label="بستن"
-                   @click="showSearchResultReport = false"
-            />
+                   @click="showSearchResultReport = false" />
           </template>
         </q-banner>
         <div class="pagination">
-          <pagination
-            :meta="paginationMeta"
-            :disable="disablePagination"
-            @updateCurrentPage="updatePage"
-          />
+          <pagination :meta="paginationMeta"
+                      :disable="disablePagination"
+                      @updateCurrentPage="updatePage" />
         </div>
       </div>
     </div>
@@ -112,15 +93,15 @@
 </template>
 
 <script>
-import pagination from 'components/Question/QuestionBank/Pagination'
-import API_ADDRESS from 'src/api/Addresses'
-import { Exam } from 'src/models/Exam'
-import { Question, QuestionList } from 'src/models/Question'
-import QuestionItem from 'components/Question/QuestionItem/QuestionItem'
-import QuestionFilter from 'components/Question/QuestionBank/QuestionFilter'
-import QuestionToolBar from 'components/Question/QuestionBank/QuestionToolBar'
-import QuestionBankHeader from 'components/Question/QuestionBank/components/QuestionBankHeader'
-import StickyBothSides from 'components/Utils/StickyBothSides'
+import { Exam } from 'src/models/Exam.js'
+import API_ADDRESS from 'src/api/Addresses.js'
+import { Question, QuestionList } from 'src/models/Question.js'
+import StickyBothSides from 'src/components/Utils/StickyBothSides.vue'
+import pagination from 'src/components/Question/QuestionBank/Pagination.vue'
+import QuestionItem from 'src/components/Question/QuestionItem/QuestionItem.vue'
+import QuestionFilter from 'src/components/Question/QuestionBank/QuestionFilter.vue'
+import QuestionToolBar from 'src/components/Question/QuestionBank/QuestionToolBar.vue'
+import QuestionBankHeader from 'src/components/Question/QuestionBank/components/QuestionBankHeader.vue'
 
 export default {
   name: 'QuestionBank',
@@ -132,6 +113,13 @@ export default {
     QuestionItem,
     pagination
   },
+  inject: {
+    exam: {
+      from: 'providedExam',
+      default: new Exam()
+    }
+  },
+  emits: ['onFilter'],
   data() {
     return {
       loadings: {
@@ -191,12 +179,6 @@ export default {
       }
     }
   },
-  inject: {
-    exam: {
-      from: 'providedExam',
-      default: new Exam()
-    }
-  },
   watch: {
     'selectedQuestions.length': {
       handler(newValue, oldValue) {
@@ -210,7 +192,6 @@ export default {
     this.getQuestionData()
     this.getFilterOptions()
   },
-  emits: ['onFilter'],
   methods: {
     onFilter(filterData) {
       // this.$emit('onFilter', filterData)

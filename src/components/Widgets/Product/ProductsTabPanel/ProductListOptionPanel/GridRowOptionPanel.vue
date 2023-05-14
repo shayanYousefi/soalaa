@@ -1,27 +1,19 @@
 <template>
   <div class="scroll-row-container">
-    <div class="row">
-      <div class="col-md-6 q-ml-md">
-        <div class="outsideLabel">اضافه کردن محصول</div>
-        <div class="flex items-center">
-          <q-input v-model="productId"
-                   class="q-mr-sm"
-                   dense
-                   label="id" />
-          <div>
-            <q-btn color="positive"
-                   icon="check"
-                   class="q-mr-sm"
-                   @click="openProduct(productId)" />
-          </div>
-        </div>
+    <div class="flex items-center">
+      <div class="q-mr-sm">اضافه کردن محصول</div>
+      <q-input v-model="productId"
+               class="q-mr-sm"
+               dense
+               label="id" />
+      <div>
+        <q-btn color="positive"
+               icon="check"
+               class="q-mr-sm"
+               @click="openProduct(productId)" />
       </div>
-      <div class="col-md-4">
-        <div class="outsideLabel">layout</div>
-        <q-select v-model="localOptions.options.layout"
-                  :options="layoutOptions" />
-      </div>
-    </div>    <q-card class="custom-card bg-grey-1">
+    </div>
+    <q-card class="custom-card bg-grey-1">
       <q-list v-for="(product, productIndex) in localOptions.data"
               :key="productIndex">
         <q-item v-ripple
@@ -65,7 +57,7 @@
 </template>
 
 <script>
-import ProductItem from 'components/Widgets/Product/ProductItem/ProductItem.vue'
+import ProductItem from 'src/components/Widgets/Product/ProductItem/ProductItem.vue'
 import { PageBuilderOptionPanel } from 'src/mixin/Mixins.js'
 import { Product } from 'src/models/Product'
 
@@ -75,9 +67,14 @@ export default {
     ProductItem
   },
   mixins: [PageBuilderOptionPanel],
+  props: {
+    options: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
-      layoutOptions: ['ScrollRow', 'GridRow'],
       productId: null,
       currentTabIndex: '',
       specialProductId: '',

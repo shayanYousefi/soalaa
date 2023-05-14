@@ -1,19 +1,17 @@
 <template>
-  <entity-show
-    v-model:value="inputs"
-    title="اطلاعات خبر"
-    :api="api"
-    :entity-id-key="entityIdKey"
-    :entity-param-key="entityParamKey"
-    :edit-route-name="editRouteName"
-    :index-route-name="indexRouteName"
-  />
+  <entity-show v-model:value="inputs"
+               title="اطلاعات خبر"
+               :api="api"
+               :entity-id-key="entityIdKey"
+               :entity-param-key="entityParamKey"
+               :edit-route-name="editRouteName"
+               :index-route-name="indexRouteName" />
 </template>
 
 <script>
 import { EntityShow } from 'quasar-crud'
-// import EntityShow from 'components/Entity/Show/EntityShow'
-import API_ADDRESS from 'src/api/Addresses'
+// import EntityShow from 'src/components/Entity/Show/EntityShow'
+import API_ADDRESS from 'src/api/Addresses.js'
 
 export default {
   name: 'Show',

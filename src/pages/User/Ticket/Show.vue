@@ -1,18 +1,16 @@
 <template>
   <div class="row justify-center">
     <div class="col-12 q-mb-xl">
-      <entity-show
-        ref="entityEdit"
-        v-model:value="inputs"
-        :show-save-button="false"
-        :title="'شماره تیکت ' + searchForInputVal('id') + ' در ' + searchForInputVal('department_title')"
-        :api="api"
-        :entity-id-key="entityIdKey"
-        :entity-param-key="entityParamKey"
-        :index-route-name="indexRouteName"
-        :after-load-input-data="checkLoadInputData"
-        :show-edit-button="false"
-      >
+      <entity-show ref="entityEdit"
+                   v-model:value="inputs"
+                   :show-save-button="false"
+                   :title="'شماره تیکت ' + searchForInputVal('id') + ' در ' + searchForInputVal('department_title')"
+                   :api="api"
+                   :entity-id-key="entityIdKey"
+                   :entity-param-key="entityParamKey"
+                   :index-route-name="indexRouteName"
+                   :after-load-input-data="checkLoadInputData"
+                   :show-edit-button="false">
         <template #before-form-builder>
           <div class="flex justify-around">
             <q-btn rounded
@@ -35,18 +33,16 @@
           </div>
         </template>
         <template #after-form-builder>
-          <ticket-rate
-            v-if="!isUserAdmin"
-            :rate="searchForInputVal('rate')"
-            :ticket-id="searchForInputVal('id')"
-            class="q-ml-lg q-mt-lg" />
+          <ticket-rate v-if="!isUserAdmin"
+                       :rate="searchForInputVal('rate')"
+                       :ticket-id="searchForInputVal('id')"
+                       class="q-ml-lg q-mt-lg" />
         </template>
       </entity-show>
       <messages v-for="item in userMessageArray"
                 :key="item"
                 :is-user-admin="isUserAdmin"
-                :data="item"
-      />
+                :data="item" />
       <send-message-input ref="SendMessageInput"
                           :send-loading="sendMessageLoading"
                           :show-send-private="false"
@@ -54,27 +50,23 @@
                           @sendText="sendMessageText"
                           @sendImage="sendMessageImage"
                           @sendVoice="sendMessageVoice"
-                          @creatTicket="sendTicket"
-      />
+                          @creatTicket="sendTicket" />
       <drawer :is-open="logDrawer"
               max-width="310px"
-              side="left"
-      >
+              side="left">
         <q-scroll-area class="fit">
           <q-btn icon="mdi-close"
                  unelevated
                  class="close-btn"
                  @click="logDrawer = false" />
           <div class="q-my-md flex content-between">
-            <q-tabs
-              v-model="panel"
-              dense
-              class="text-grey"
-              active-color="primary"
-              indicator-color="primary"
-              align="justify"
-              narrow-indicator
-            >
+            <q-tabs v-model="panel"
+                    dense
+                    class="text-grey"
+                    active-color="primary"
+                    indicator-color="primary"
+                    align="justify"
+                    narrow-indicator>
               <q-tab name="events"
                      label="رویداد ها" />
             </q-tabs>
@@ -89,8 +81,7 @@
         </q-scroll-area>
       </drawer>
       <drawer :is-open="orderDrawer"
-              max-width="1016px"
-      >
+              max-width="1016px">
         <q-scroll-area class="fit">
           <q-btn icon="mdi-close"
                  class="close-btn"
@@ -106,20 +97,20 @@
 
 <script>
 import { EntityShow } from 'quasar-crud'
-import Messages from 'components/Ticket/Messages'
-import TicketRate from 'components/Ticket/TicketRate'
-import LogList from 'components/Ticket/LogList'
-import Drawer from 'components/CustomDrawer'
-import UserOrderList from 'components/Ticket/userOrderList'
-import API_ADDRESS from 'src/api/Addresses'
-import { CartItemList } from 'src/models/CartItem'
-import SendMessageInput from 'components/Ticket/SendMessageInput'
-import { mixinDateOptions, mixinTicket } from 'src/mixin/Mixins'
+import API_ADDRESS from 'src/api/Addresses.js'
+import Drawer from 'src/components/CustomDrawer.vue'
+import { CartItemList } from 'src/models/CartItem.js'
+import LogList from 'src/components/Ticket/LogList.vue'
+import Messages from 'src/components/Ticket/Messages.vue'
+import TicketRate from 'src/components/Ticket/TicketRate.vue'
+import UserOrderList from 'src/components/Ticket/userOrderList.vue'
+import { mixinDateOptions, mixinTicket } from 'src/mixin/Mixins.js'
+import SendMessageInput from 'src/components/Ticket/SendMessageInput.vue'
 
 export default {
   name: 'Show',
-  mixins: [mixinDateOptions, mixinTicket],
   components: { EntityShow, Messages, LogList, UserOrderList, TicketRate, SendMessageInput, Drawer },
+  mixins: [mixinDateOptions, mixinTicket],
   data () {
     return {
       isUserAdmin: false,
@@ -233,6 +224,12 @@ export default {
       return logs
     }
   },
+  created () {
+    this.initPageData()
+  },
+  mounted () {
+    this.isUserAdmin = this.$store.getters['Auth/user'].has_admin_permission
+  },
   methods: {
     initPageData () {
       this.api += '/' + this.$route.params.id
@@ -302,7 +299,7 @@ export default {
     },
     postMessage (formData) {
       this.sendLoading = true
-      this.$axios.post(API_ADDRESS.ticket.show.ticketMessage, formData)
+      this.$alaaApiInstance.post(API_ADDRESS.ticket.show.ticketMessage, formData)
         .then(res => {
           this.userMessageArray.unshift(res.data.data.ticketMessage)
           this.$refs.SendMessageInput.clearMessage()
@@ -317,7 +314,7 @@ export default {
         })
     },
     saveChanges () {
-      this.$axios.put(API_ADDRESS.ticket.show.base + '/' + this.searchForInputVal('id'), {
+      this.$alaaApiInstance.put(API_ADDRESS.ticket.show.base + '/' + this.searchForInputVal('id'), {
         department_id: this.searchForInputVal('department'),
         id: this.searchForInputVal('id'),
         priority_id: this.searchForInputVal('priority-id'),
@@ -361,7 +358,7 @@ export default {
       this.logDrawer = this.logDrawer === false
     },
     sendTicketStatusNotice (ticketId) {
-      this.$axios.post(API_ADDRESS.ticket.show.statusNotice(ticketId))
+      this.$alaaApiInstance.post(API_ADDRESS.ticket.show.statusNotice(ticketId))
         .then((res) => {
           this.$q.notify({
             message: res.data.message,
@@ -369,12 +366,6 @@ export default {
           })
         })
     }
-  },
-  created () {
-    this.initPageData()
-  },
-  mounted () {
-    this.isUserAdmin = this.$store.getters['Auth/user'].has_admin_permission
   }
 }
 </script>
